@@ -6,7 +6,7 @@ rectangular base so as to minimize its height.
 
 This repository contains the code, instances, solutions and scripts of the paper
 
-> I. Araya et al. *Fast exact overlap minimization for three-dimensional irregular strip packing of polyhedra.*
+> I. Araya. *Fast exact overlap minimization for three-dimensional irregular strip packing of polyhedra.*
 > Submitted to the European Journal of Operational Research.
 
 ## Method in brief
