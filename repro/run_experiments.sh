@@ -4,8 +4,8 @@
 #   groups (default all): chess main liu ablation sens tollenaere
 #   main        13 instances (Stoyan 2004/2005, Merged1-5) x 10 seeds x 120 s                       130 runs
 #   liu         Liu et al. 2015 Experiment1 x 10 seeds x 120 s                                        10 runs
-#   ablation    7 hardest instances x 5 variants (no Improve, sigma = 0, greedy by volume, no kick,
-#               additive weights) x 10 seeds x 120 s, and Tollenaere et al. 2025 without Improve       350 + 660 runs
+#   ablation    7 hardest instances x 5 variants (no Compact, sigma = 0, greedy by volume, no kick,
+#               additive weights) x 10 seeds x 120 s, and Tollenaere et al. 2025 without Compact       350 + 660 runs
 #   sens        7 hardest instances x (rho 0.5 %, 2 %; 100 and 2000 passes) x 10 seeds x 120 s       280 runs
 #   tollenaere  66 instances of Tollenaere et al. 2025 x 10 seeds x 30 s                             660 runs
 #   chess       Chess x 5 seeds: fine 1200 s, coarse 1200 s, coarse 900 s + fine 300 s (multiresolution)
@@ -62,7 +62,7 @@ done; fi
 if has main; then for s in $(seq 1 10); do for f in "${ALL[@]}"; do echo "full|$s|120|$f|"; done; done; fi
 if has liu; then for s in $(seq 1 10); do echo "full|$s|120|Liu et al. 2015/Experiment1.json|"; done; fi
 if has ablation; then for s in $(seq 1 10); do for f in "${HARD[@]}"; do
-  echo "noimprove|$s|120|$f|--no_improve"; echo "slide0|$s|120|$f|--slide 0"
+  echo "nocompact|$s|120|$f|--no_compact"; echo "slide0|$s|120|$f|--slide 0"
   echo "volgreedy|$s|120|$f|--alpha 1000 --beta 1 --gamma 0"; echo "nokick|$s|120|$f|--no_kick"
   echo "additive|$s|120|$f|--additive"
 done; done; fi
@@ -71,7 +71,7 @@ if has sens; then for s in $(seq 1 10); do for f in "${HARD[@]}"; do
   echo "pass100|$s|120|$f|--passes 100"; echo "pass2000|$s|120|$f|--passes 2000"
 done; done; fi
 if has tollenaere; then for s in $(seq 1 10); do for f in "${T25[@]}"; do echo "full|$s|30|$f|"; done; done; fi
-if has ablation; then for s in $(seq 1 10); do for f in "${T25[@]}"; do echo "noimprove|$s|30|$f|--no_improve"; done; done; fi
+if has ablation; then for s in $(seq 1 10); do for f in "${T25[@]}"; do echo "nocompact|$s|30|$f|--no_compact"; done; done; fi
 } > "$LIST"
 echo "$(wc -l < "$LIST") runs ($GROUPS_), $JOBS in parallel; logs in $OUT"
 start=$(date +%s)

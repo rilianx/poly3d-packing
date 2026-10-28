@@ -29,8 +29,8 @@ be relaunched if interrupted.
 |---|---|---|---|
 | main: Stoyan 2004/2005, Merged1–5 | 13 × 10 seeds | 120 s | 4.3 h |
 | liu: Liu et al. 2015 Experiment1 | 10 | 120 s | 0.3 h |
-| ablation: 7 instances × (no Improve, σ = 0, greedy by volume, no kick, additive weights) | 350 | 120 s | 11.7 h |
-| ablation: Tollenaere et al. 2025 without Improve | 66 × 10 | 30 s | 5.5 h |
+| ablation: 7 instances × (no Compact, σ = 0, greedy by volume, no kick, additive weights) | 350 | 120 s | 11.7 h |
+| ablation: Tollenaere et al. 2025 without Compact | 66 × 10 | 30 s | 5.5 h |
 | sens: 7 instances × (ρ = 0.5 %, 2 %; 100 and 2000 passes) | 280 | 120 s | 9.3 h |
 | tollenaere: Tollenaere et al. 2025 | 66 × 10 | 30 s | 5.5 h |
 | chess: fine, coarse, coarse + fine | 3 × 5 seeds | 1200 s | 5 h |

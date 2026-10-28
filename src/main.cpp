@@ -2,9 +2,9 @@
  * main.cpp
  *
  * 3D irregular strip packing of polyhedra (translations only), Algorithm 1 of the paper:
- * 1. greedy construction and Improve;
+ * 1. greedy construction and Compact;
  * 2. strategic oscillation: the height is lowered by a step rho and MinimizeOverlap removes the overlap
- *    (guided local search with exact axis moves); on success, Improve and a new best solution; on failure, the
+ *    (guided local search with exact axis moves); on success, Compact and a new best solution; on failure, the
  *    height grows a quarter of the step and, once back at the best height, the search restarts from the best
  *    solution with one random piece moved to a random position (kick).
  *
@@ -38,13 +38,13 @@ int main(int argc, char** argv){
 	args::ValueFlag<double> _gamma(construction, "double", "Weight of the increase of the height of the load. Default: 0.77", {"gamma"});
 	args::ValueFlag<int> _grid(construction, "int", "Starting points per axis (x, y). Default: 4", {"grid"});
 	args::ValueFlag<double> _slide(construction, "double", "Weight sigma of x, y (towards the nearest walls) in Descend. Default: 0.065", {"slide"});
-	args::Flag _greedy(construction, "greedy", "Only the construction and Improve", {"greedy"});
+	args::Flag _greedy(construction, "greedy", "Only the construction and Compact", {"greedy"});
 	args::Group search(parser, "Search:");
 	args::ValueFlag<double> _rho(search, "double", "Step rho of the oscillation (proportion of the best height). Default: 0.01", {"rho"});
 	args::ValueFlag<int> _passes(search, "int", "Maximum passes of MinimizeOverlap. Default: 500", {"passes"});
 	args::Flag _additive(search, "additive", "Additive GLS weights (+1 for the overlapping pairs) instead of multiplicative", {"additive"});
 	args::Flag _no_kick(search, "no_kick", "The restarts do not move any piece", {"no_kick"});
-	args::Flag _no_improve(search, "no_improve", "No Improve after the construction and after each separation", {"no_improve"});
+	args::Flag _no_compact(search, "no_compact", "No Compact after the construction and after each separation", {"no_compact"});
 	args::Positional<std::string> _file(parser, "instance", "Instance (ESICUP JSON)");
 
 	cout.precision(8);
@@ -99,8 +99,8 @@ int main(int argc, char** argv){
 			cout << "WARNING: infeasible solution rejected" << endl;
 			return false;
 		};
-		auto improve = [&](const vector<int>& pieces, vector<Vec3>& t) -> double {
-			if(!_no_improve) return placer.improve(pieces, t);
+		auto compact = [&](const vector<int>& pieces, vector<Vec3>& t) -> double {
+			if(!_no_compact) return placer.compact(pieces, t);
 			double h = 0;
 			for(size_t i=0; i<pieces.size(); i++) h = max(h, t[i].z + inst.pieces[pieces[i]].bbox.extent().z);
 			return h;
@@ -148,8 +148,8 @@ int main(int argc, char** argv){
 			H = H2;
 			return true;
 		};
-		set_best(ts, improve(ps, ts));
-		cout << "improved_height (" << elapsed() << " s): " << H << endl;
+		set_best(ts, compact(ps, ts));
+		cout << "compacted_height (" << elapsed() << " s): " << H << endl;
 
 		//2. strategic oscillation
 		auto current = [&]() { vector<Vec3> t; for(const Placement& p : S.items) t.push_back(p.t); return t; };
@@ -163,7 +163,7 @@ int main(int argc, char** argv){
 		while(!_greedy && elapsed() < maxtime && H > lb*(1+1e-6)){
 			separations++;
 			if(placer.minimize_overlap(ps, ts, hc, passes, weights, rng, mult)){
-				double H2 = improve(ps, ts);
+				double H2 = compact(ps, ts);
 				if(H2 < H - 1e-9*H && set_best(ts, H2))
 					cout << "[best] (" << elapsed() << " s): height " << H << endl;
 				ts = current();

@@ -156,7 +156,7 @@ void Placer::place_all(const vector<int>& pieces, const vector<Vec3>& t, int ski
 	}
 }
 
-double Placer::improve(const vector<int>& pieces, vector<Vec3>& t, int max_passes) {
+double Placer::compact(const vector<int>& pieces, vector<Vec3>& t, int max_passes) {
 	int n = pieces.size();
 	auto height = [&](int skip) {
 		double h=0;

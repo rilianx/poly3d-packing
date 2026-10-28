@@ -34,7 +34,7 @@ Gap: mean gap with respect to the best published height. Change: mean relative c
 | Configuration | Gap S2004 Ex2-5 | Gap S2005 Ex2-3 | Change | p | n |
 |---|---|---|---|---|---|
 | Proposed method | -2.9% | -2.0% | -- | -- | 70 |
-| Without Improve | -2.6% | -1.6% | +0.4% | 0.095 | 70 |
+| Without Compact | -2.6% | -1.6% | +0.4% | 0.095 | 70 |
 | sigma = 0 | -2.3% | -1.7% | +0.5% | 0.190 | 70 |
 | Greedy by volume | -2.9% | -1.4% | +0.3% | 0.216 | 70 |
 | No kick | -2.6% | -2.1% | +0.2% | 0.294 | 70 |

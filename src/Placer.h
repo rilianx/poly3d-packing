@@ -61,12 +61,12 @@ public:
 	bool feasible(int p, const Vec3& t, const std::vector<PlacedPart>& placed) const;
 
 	/**
-	 * Improve: moves one piece at a time, the others fixed, in increasing order of z:
+	 * Compact: moves one piece at a time, the others fixed, in increasing order of z:
 	 * - the piece descends again from its position;
 	 * - a piece that defines the height moves to its lowest candidate position, if lower.
 	 * Repeats while the height decreases (at most max_passes). Returns the new height.
 	 */
-	double improve(const std::vector<int>& pieces, std::vector<Vec3>& t, int max_passes=50);
+	double compact(const std::vector<int>& pieces, std::vector<Vec3>& t, int max_passes=50);
 
 	/**
 	 * Exact axis move (Proposition 1): moves piece i along the axis (0, 1, 2) to the position, inside the container

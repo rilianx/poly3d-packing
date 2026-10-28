@@ -15,7 +15,7 @@ def parse(f):
     m = re.search(r'^height: (\S+)', t, re.M)
     if not m: return None
     pts = []
-    m0 = re.search(r'^improved_height \((\S+) s\): (\S+)', t, re.M)
+    m0 = re.search(r'^compacted_height \((\S+) s\): (\S+)', t, re.M)
     if m0: pts.append((float(m0.group(1)), float(m0.group(2))))
     for m2 in re.finditer(r'^\[best\] \((\S+) s\): height (\S+)', t, re.M):
         pts.append((float(m2.group(1)), float(m2.group(2))))
@@ -73,7 +73,7 @@ print('Gap: mean gap with respect to the best published height. Change: mean rel
 print('| Configuration | Gap S2004 Ex2-5 | Gap S2005 Ex2-3 | Change | p | n |')
 print('|---|---|---|---|---|---|')
 base = {(inst, r['seed']): r for inst in HARD for r in runs('full', key(inst))}
-for name, cfg, T in (('Proposed method', 'full', None), ('Without Improve', 'noimprove', None),
+for name, cfg, T in (('Proposed method', 'full', None), ('Without Compact', 'nocompact', None),
                      ('sigma = 0', 'slide0', None), ('Greedy by volume', 'volgreedy', None),
                      ('No kick', 'nokick', None), ('Additive GLS weights', 'additive', None),
                      ('Time limit 24 s', 'full', 24), ('rho = 0.5 %', 'rho05', None), ('rho = 2 %', 'rho2', None),
@@ -116,7 +116,7 @@ with open(os.path.join(D, '..', 'merged_trajectories.csv'), 'w') as f:
 ref = {}
 for row in csv.DictReader(open(os.path.join(HERE, 'data', 'tollenaere2025_reference.csv'))):
     ref[(row['series'], int(row['items']))] = (float(row['best_ub']), float(row['best_lb']), row['proven_optimal'] == '1')
-for cfg, title in (('full', 'proposed method'), ('noimprove', 'without Improve')):
+for cfg, title in (('full', 'proposed method'), ('nocompact', 'without Compact')):
     T25 = {}
     for f in glob.glob(D + '/%s.s*.Tollenaere*.log' % cfg):
         r = parse(f)
